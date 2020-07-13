@@ -1,0 +1,12 @@
+{
+  "name": "NoteApp",
+  "displayName": "NoteApp",
+  "expo": {
+    "name": "NoteApp",
+    "slug": "NoteApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

@@ -2,18 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, SafeAreaView, Text, Button, TextInput, Image } from 'react-native'
 import { AppContext } from '../Context/AppContext'
 import FirebaseController from '../Controllers/FirebaseController'
-import { Container, Header, Content, View, Form, Item, Input, Label, Button as BaseButton } from 'native-base';
+import { Container, Header, Content, View, Form, Item, Input, Label, Button as BaseButton,Icon } from 'native-base';
 import {KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+
+import LottieView from 'lottie-react-native';
 
 
 const firebaseController = new FirebaseController();
 
 export default function LoginScreen({ navigation }) {
 
-    let email = ""
-    let password = ""
 
     const { signIn } = React.useContext(AppContext)
+    const [showPassowrd, setShowPassword] = useState(true)
+    const [passowrdIcon, setPassowrdIcon] = useState("eye-off")
+    const [password, setPassword] = useState("")
+
+    const [email, setEmail] = useState("")
+    
     return (
         <KeyboardAwareScrollView style = {{flex: 1}}>
             <Container style={{ flex: 1 }}>
@@ -23,30 +29,41 @@ export default function LoginScreen({ navigation }) {
             </View>
             <View style={{ flex: 2, alignContent: "center" }}>
                 <Form>
-                    <Item stackedLabel>
+                    <Item fixedLabel>
                         <Label>Email</Label>
                         <Input 
                         keyboardType="email-address" 
                         onChangeText = {function(text)
                         {
-                            email = text
+                            setEmail(text)
                         }}
                         />
                     </Item>
-                    <Item stackedLabel>
+                    <Item fixedLabel>
                         <Label>Password</Label>
-                        <Input secureTextEntry 
+                        <Input secureTextEntry = {showPassowrd}
                         onChangeText = {function(text)
                         {
-                            password = text
+                            setPassword(text)
                         }}
                         />
+                        <Icon name={passowrdIcon} onPress={() => 
+                            {
+                                setShowPassword(!showPassowrd)
+                                if(showPassowrd)
+                                {
+                                    setPassowrdIcon("eye")
+                                }else{
+                                    setPassowrdIcon("eye-off")
+                                }
+                            }
+                        } />
                     </Item>
                 </Form>
             </View>
             <View style = {{flex: 2}}>
             <View style={{ flex: 2,justifyContent: "center", alignItems: "center" }} >
-                <BaseButton 
+                <BaseButton
                 onPress = {function () {
                         firebaseController.loginEmailPassword(email, password)
                             .then(function (userCred) {
@@ -66,7 +83,8 @@ export default function LoginScreen({ navigation }) {
                             })
                     }
                 }
-                primary style={{ alignContent: "center", justifyContent: "center", width: 100 }} >
+                primary
+                style={{ alignContent: "center", justifyContent: "center", width: 100 }} >
                     <Text> Login </Text>
                 </BaseButton>
             </View>
@@ -75,7 +93,7 @@ export default function LoginScreen({ navigation }) {
                 <Text style = {{color : "magenta"}}
                 onPress = {() =>
                     {
-                        alert("TODO! Go to signup screen")
+                        navigation.push("SignUpScreen")
                     }
                 }
                 > Sign Up</Text>

@@ -11,6 +11,8 @@ import { AppContext } from './Context/AppContext';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
+import NoteComp from "./Components/NoteComp"
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const SignInStackNavigator = new createStackNavigator();
@@ -19,12 +21,19 @@ function MainLoginStackNavigator() {
   return (
     <SignInStackNavigator.Navigator>
       <SignInStackNavigator.Screen name="LoginScreen" component={LoginScreen} options= {{headerShown: false  }} />
-      <SignInStackNavigator.Screen name = "SignUpScreen" component = {SignUpScreen} />
+      <SignInStackNavigator.Screen name = "SignUpScreen" component = {SignUpScreen} options = {{headerShown: false}} />
     </SignInStackNavigator.Navigator>
   )
 }
 
 export default function App() {
+
+  return(
+    <SafeAreaView>
+      <NoteComp />
+    </SafeAreaView>
+
+  )
 
   const [userId, setUserId] = useState(null)
 
